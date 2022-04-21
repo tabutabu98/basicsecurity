@@ -1,5 +1,6 @@
 package io.security.basicsecurity;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -7,6 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
@@ -21,7 +23,10 @@ import java.io.IOException;
 @Slf4j
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private final UserDetailsService userDetailsService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -60,5 +65,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     }
                 })
                 .deleteCookies("remember-me");
+
+        /**
+         * 자동 로그인 API
+         */
+        http
+                .rememberMe()
+                .rememberMeParameter("remember")
+                .tokenValiditySeconds(3600)
+                .userDetailsService(userDetailsService);
+
     }
 }
