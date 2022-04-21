@@ -34,28 +34,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          * 인증 정책
          */
         http
-                .formLogin()
-                .loginPage("/loginPage")
-                .defaultSuccessUrl("/")
-                .failureUrl("/login")
-                .usernameParameter("userId")
-                .passwordParameter("passwd")
-                .loginProcessingUrl("/login_proc")
-                .successHandler(new AuthenticationSuccessHandler() {
-                    @Override
-                    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-                        log.info("authentication = {}", authentication.getName());
-                        response.sendRedirect("/");
-                    }
-                })
-                .failureHandler(new AuthenticationFailureHandler() {
-                    @Override
-                    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-                        log.info("exception = {}", exception.getMessage());
-                        response.sendRedirect("/login");
-                    }
-                })
-                .permitAll()
-        ;
+                .formLogin();
     }
 }
