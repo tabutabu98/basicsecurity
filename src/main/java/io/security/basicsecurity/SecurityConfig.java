@@ -54,22 +54,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         /**
          * 동시 세션 제어 API
          */
-//        http
-//                .sessionManagement()
-//                .maximumSessions(1)
-//                /**
-//                 * default(false) : 이전 사용자의 세션 종료
-//                 * true : 현재 사용자의 인증 실패
-//                 */
-//                .maxSessionsPreventsLogin(false);
-
-        /**
-         * 동시 세션 제어 API
-         */
         http
                 .sessionManagement()
-                // 세션 고정 보호(인증을 완료하고 접속시 세션ID 변경)
-                .sessionFixation().changeSessionId();
-
+                .maximumSessions(1)
+                .maxSessionsPreventsLogin(false);
     }
 }
