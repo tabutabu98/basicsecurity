@@ -45,34 +45,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin();
 
         /**
-         * 로그아웃 API
-         */
-        http
-                .logout()
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/login")
-                .addLogoutHandler(new LogoutHandler() {
-                    @Override
-                    public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-                        HttpSession session = request.getSession();
-                        session.invalidate();
-                    }
-                })
-                .logoutSuccessHandler(new LogoutSuccessHandler() {
-                    @Override
-                    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-                        response.sendRedirect("/login");
-                    }
-                })
-                .deleteCookies("remember-me");
-
-        /**
          * 자동 로그인 API
          */
         http
                 .rememberMe()
-                .rememberMeParameter("remember")
-                .tokenValiditySeconds(3600)
                 .userDetailsService(userDetailsService);
 
     }
